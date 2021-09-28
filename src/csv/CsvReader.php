@@ -2,6 +2,8 @@
 
 namespace Csv;
 
+use Csv\Fixture\EmployeeDTO;
+
 class CsvReader
 {
     public static function readLine(string $pathToFile): \Generator
@@ -14,5 +16,18 @@ class CsvReader
         while ($line = fgets($csvFile)) {
             yield $line;
         }
+    }
+
+    public static function parseCsvLineToEmployee(string $csvRow)
+    {
+        $csvRow = str_replace("\n", '', $csvRow);
+        $parsedEmployee = explode(',', $csvRow);
+
+        $dummyEmployee = new EmployeeDTO();
+        $dummyEmployee->setId($parsedEmployee[0]);
+        $dummyEmployee->setName($parsedEmployee[1]);
+        $dummyEmployee->setWorkedHours($parsedEmployee[2]);
+
+        return $dummyEmployee;
     }
 }
