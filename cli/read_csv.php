@@ -1,8 +1,7 @@
 <?php
+require_once '../vendor/autoload.php';
 
 use Csv\CsvReader;
-
-require_once 'vendor/autoload.php';
 
 $PATH_TO_CSV = './employee.csv';
 
