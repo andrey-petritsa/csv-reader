@@ -15,7 +15,7 @@
 * [cli скрипты по работе с генерацией и чтением csv](/cli)
 * [настройки генератора csv файла](/src/csv/Fixture/fixture_settings.json)
 
-Внутри проекта есть [csv файл пример](/cli/employee.csv) сгениророванный заранее [модулем](src/csv/Fixture/FixtureGenerator.php) . Его можно прочитать
+Внутри проекта есть [csv файл пример](cli/employee.csv) сгениророванный заранее [модулем](src/csv/Fixture/FixtureGenerator.php) . Его можно прочитать
 через [скрипт](/cli/read_csv.php). Вывод скрипта идет в stdout.
 Для решения задачи использовались 
 1. PSR-4
