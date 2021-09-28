@@ -1,0 +1,12 @@
+{
+    "name": "acrosspaper/csv-reader",
+    "description": "Reader For big csv files",
+    "type": "project",
+    "authors": [
+        {
+            "name": "andrey-petritsa",
+            "email": "andrey@petritsa.ru"
+        }
+    ],
+    "require": {}
+}
