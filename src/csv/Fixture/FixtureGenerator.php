@@ -30,10 +30,20 @@ class FixtureGenerator
     public function generateCsv()
     {
         for ($i = 0; $i < $this->maxCountOfLines; $i++) {
-            $dummyEmployee = new EmployeeDTO();
-            $dummyEmployee->setId(rand(1, $this->maxCountOfLines));
-            $dummyEmployee->setName(array_rand($this->nameOptions));
-            $dummyEmployee->setWorkedHours(rand($this->minWorkHours, $this->maxWorkHours));
+            $dummyEmployee = $this->getRandomEmployee();
+            file_put_contents($this->outputPath, (string)$dummyEmployee, FILE_APPEND | LOCK_EX);
         }
     }
+
+    private function getRandomEmployee()
+    {
+        $dummyEmployee = new EmployeeDTO();
+        $dummyEmployee->setId(rand(1, $this->maxCountOfLines));
+        $dummyEmployee->setName(array_rand($this->nameOptions));
+        $dummyEmployee->setWorkedHours(rand($this->minWorkHours, $this->maxWorkHours));
+
+        return $dummyEmployee;
+    }
+
+
 }
