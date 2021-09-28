@@ -1,5 +1,5 @@
 {
-  "maxCountOfLines": 1000,
+  "maxCountOfLines": 1000000,
   "nameOptions": [
     "Иванов",
     "Куприян",
@@ -10,5 +10,9 @@
     "min": 1,
     "max": 100
   },
-  "outputPath": "../../employee.csv"
+  "columnName": {
+    "id": "ID",
+    "name": "Имя",
+    "workHours": "Отработанные часы"
+  }
 }
