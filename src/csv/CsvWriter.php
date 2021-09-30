@@ -6,6 +6,8 @@ use http\Exception\InvalidArgumentException;
 
 class CsvWriter
 {
+    private $csvFile;
+
     public function __construct(private string $pathToFile)
     {
         $this->csvFile = fopen($this->pathToFile, 'w');
@@ -15,7 +17,8 @@ class CsvWriter
         }
     }
 
-    public function writeContentRow(array $row): bool {
+    public function writeContentRow(array $row): bool
+    {
         return fputcsv($this->csvFile, $row);
     }
 }
