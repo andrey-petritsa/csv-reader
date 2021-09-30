@@ -2,53 +2,29 @@
 
 namespace Csv\Fixture;
 
+use Csv\CsvWriter;
 use Csv\Factory\EmployeeFactory\Employee;
 
 class FixtureGenerator
 {
-    private const PATH_TO_SETTINGS = __DIR__ . '/./fixture_settings.json';
 
-    private string $outputCsvFilePath;
-    private array $csvHeaders;
-
-    private int $maxCountOfLines;
-    private array $nameOptions;
-    private int $minWorkHours;
-    private int $maxWorkHours;
-
-    public function __construct(string $outputCsvFilePath)
+    public function __construct(private FixtureSettings $settings, private CsvWriter $csvWriter)
     {
-        $this->outputCsvFilePath = $outputCsvFilePath;
-
-        $json = file_get_contents(self::PATH_TO_SETTINGS);
-        $settings = json_decode($json, true);
-
-        $this->maxCountOfLines = $settings['maxCountOfLines'];
-
-        $this->nameOptions = $settings['nameOptions'];
-        $this->minWorkHours = $settings['workHoursOptions']['min'];
-        $this->maxWorkHours = $settings['workHoursOptions']['max'];
-
-        $this->csvHeaders = $settings['columnName'];
     }
 
-    public function generateCsv()
+    public function generateCsvWithEmployees(): void
     {
-        if (file_exists($this->outputCsvFilePath)) {
-            unlink($this->outputCsvFilePath);
-        }
+        $this->writeHeaders();
 
-        $this->writeCsvHeaders();
-
-        for ($i = 0; $i <= $this->maxCountOfLines; $i++) {
-            $dummyEmployee = $this->getRandomEmployee();
-            file_put_contents($this->outputCsvFilePath, (string)$dummyEmployee . PHP_EOL, FILE_APPEND | LOCK_EX);
+        for ($i = 0; $i <= $this->settings->getMaxCountOfLines(); $i++) {
+            $employee = $this->getRandomEmployee();
+            $this->csvWriter->writeContentRow(array($employee));
         }
     }
 
-    private function writeCsvHeaders()
+    private function writeHeaders()
     {
-        file_put_contents($this->outputCsvFilePath, implode(",", $this->csvHeaders) . PHP_EOL);
+        $this->csvWriter->writeContentRow($this->settings->getHeaders());
     }
 
     private function getRandomEmployee(): Employee
@@ -56,15 +32,18 @@ class FixtureGenerator
         return new Employee($this->getRandomId(), $this->getRandomName(), $this->getRandomHours());
     }
 
-    private function getRandomId(): int {
-        return rand(1, $this->maxCountOfLines);
+    private function getRandomId(): int
+    {
+        return rand(1, $this->settings->getMaxCountOfLines());
     }
 
-    private function getRandomName(): string {
-        return array_rand($this->nameOptions);
+    private function getRandomName(): string
+    {
+        return array_rand($this->settings->getNameOptions());
     }
 
-    private function getRandomHours(): int {
-        return rand($this->minWorkHours, $this->maxWorkHours);
+    private function getRandomHours(): int
+    {
+        return rand($this->settings->getHoursOptions()['min'], $this->settings->getHoursOptions()['max']);
     }
 }

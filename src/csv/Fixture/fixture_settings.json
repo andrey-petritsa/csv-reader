@@ -10,7 +10,7 @@
     "min": 1,
     "max": 100
   },
-  "columnName": {
+  "headers": {
     "id": "id",
     "name": "name",
     "workHours": "hours"
