@@ -16,15 +16,20 @@ class FixtureGenerator
     {
         $this->writeHeaders();
 
-        for ($i = 0; $i <= $this->settings->getMaxCountOfLines(); $i++) {
+        for ($i = 0; $i <= $this->getCountOfEmployees(); $i++) {
             $employee = $this->getRandomEmployee();
-            $this->csvWriter->writeContentRow(array($employee));
+            $this->csvWriter->writeContentRow((array)$employee);
         }
     }
 
     private function writeHeaders()
     {
         $this->csvWriter->writeContentRow($this->settings->getHeaders());
+    }
+
+    private function getCountOfEmployees(): int
+    {
+        return $this->settings->getMaxCountOfLines();
     }
 
     private function getRandomEmployee(): Employee
@@ -39,7 +44,8 @@ class FixtureGenerator
 
     private function getRandomName(): string
     {
-        return array_rand($this->settings->getNameOptions());
+        $nameOptions = $this->settings->getNameOptions();
+        return $nameOptions[array_rand($nameOptions)];
     }
 
     private function getRandomHours(): int
