@@ -20,8 +20,8 @@ class EmployeeCsvReader
     {
         $this->csvReader = new CsvReader($pathToCsvFile);
         $this->employeeValidator = new EmployeeValidator(new ErrorCreator());
-        $this->employeeCreator = new EmployeeCreator($this->employeeValidator);
         $this->employeeHelper = new EmployeeHelper();
+        $this->employeeCreator = new EmployeeCreator($this->employeeValidator, $this->employeeHelper);
         $this->employees = [];
     }
 
