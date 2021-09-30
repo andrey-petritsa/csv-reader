@@ -11,8 +11,8 @@
     "max": 100
   },
   "columnName": {
-    "id": "ID",
-    "name": "Имя",
-    "workHours": "Отработанные часы"
+    "id": "id",
+    "name": "name",
+    "workHours": "hours"
   }
 }
