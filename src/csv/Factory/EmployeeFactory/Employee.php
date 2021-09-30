@@ -12,4 +12,19 @@ class Employee
     {
         return implode(',', [$this->id, $this->name, $this->workedHours]);
     }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getWorkedHours(): int
+    {
+        return $this->workedHours;
+    }
 }
