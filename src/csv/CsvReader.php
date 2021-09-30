@@ -2,32 +2,31 @@
 
 namespace Csv;
 
-use Csv\Fixture\EmployeeDTO;
+use Generator;
+use InvalidArgumentException;
 
 class CsvReader
 {
-    public static function readLine(string $pathToFile): \Generator
-    {
-        $csvFile = fopen($pathToFile, 'r');
-        if (!$csvFile) {
-            throw new \Exception("Файл $pathToFile не найден. У файла есть права на чтение?");
-        }
+    private $csvFile;
 
-        while ($line = fgets($csvFile)) {
+    public function __construct(private string $pathToCsv)
+    {
+        $this->csvFile = fopen($this->pathToCsv, 'r');
+        if (!$this->csvFile) {
+            throw new InvalidArgumentException("Файл $this->pathToCsv не найден. У файла есть права на чтение?");
+        }
+    }
+
+    public function readContentRow(): Generator
+    {
+        $this->skipHeaders();
+        while ($line = fgetcsv($this->csvFile)) {
             yield $line;
         }
     }
 
-    public static function parseCsvLineToEmployee(string $csvRow)
+    private function skipHeaders()
     {
-        $csvRow = str_replace("\n", '', $csvRow);
-        $parsedEmployee = explode(',', $csvRow);
-
-        $dummyEmployee = new EmployeeDTO();
-        $dummyEmployee->setId($parsedEmployee[0]);
-        $dummyEmployee->setName($parsedEmployee[1]);
-        $dummyEmployee->setWorkedHours($parsedEmployee[2]);
-
-        return $dummyEmployee;
+        fgetcsv($this->csvFile);
     }
 }
