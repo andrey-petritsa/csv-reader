@@ -20,6 +20,7 @@ class FixtureGenerator
             $employee = $this->getRandomEmployee();
             $this->csvWriter->writeContentRow((array)$employee);
         }
+
     }
 
     private function writeHeaders()
