@@ -2,9 +2,11 @@
 
 namespace Csv\Fixture;
 
+use Csv\Factory\EmployeeFactory\Employee;
+
 class FixtureGenerator
 {
-    const PATH_TO_SEETTINGS = __DIR__ . '/./fixture_settings.json';
+    private const PATH_TO_SETTINGS = __DIR__ . '/./fixture_settings.json';
 
     private string $outputCsvFilePath;
     private array $csvHeaders;
@@ -18,7 +20,7 @@ class FixtureGenerator
     {
         $this->outputCsvFilePath = $outputCsvFilePath;
 
-        $json = file_get_contents(self::PATH_TO_SEETTINGS);
+        $json = file_get_contents(self::PATH_TO_SETTINGS);
         $settings = json_decode($json, true);
 
         $this->maxCountOfLines = $settings['maxCountOfLines'];
@@ -44,18 +46,25 @@ class FixtureGenerator
         }
     }
 
-    private function getRandomEmployee()
-    {
-        $dummyEmployee = new EmployeeDTO();
-        $dummyEmployee->setId(rand(1, $this->maxCountOfLines));
-        $dummyEmployee->setName($this->nameOptions[array_rand($this->nameOptions)]);
-        $dummyEmployee->setWorkedHours(rand($this->minWorkHours, $this->maxWorkHours));
-
-        return $dummyEmployee;
-    }
-
     private function writeCsvHeaders()
     {
         file_put_contents($this->outputCsvFilePath, implode(",", $this->csvHeaders) . PHP_EOL);
+    }
+
+    private function getRandomEmployee(): Employee
+    {
+        return new Employee($this->getRandomId(), $this->getRandomName(), $this->getRandomHours());
+    }
+
+    private function getRandomId(): int {
+        return rand(1, $this->maxCountOfLines);
+    }
+
+    private function getRandomName(): string {
+        return array_rand($this->nameOptions);
+    }
+
+    private function getRandomHours(): int {
+        return rand($this->minWorkHours, $this->maxWorkHours);
     }
 }
