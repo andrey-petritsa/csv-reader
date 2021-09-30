@@ -8,7 +8,9 @@
       "email": "andrey@petritsa.ru"
     }
   ],
-  "require": {},
+  "require": {
+    "ext-http": "*"
+  },
   "autoload": {
     "psr-4": {
       "Csv\\": "src/csv"
