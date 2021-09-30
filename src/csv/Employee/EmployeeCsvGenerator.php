@@ -18,7 +18,7 @@ class EmployeeCsvGenerator
         $this->fixtureGenerator = new FixtureGenerator($settings, $csvWriter);
     }
 
-    public function generateEmployees() {
+    public function generateEmployeesCsv() {
         $this->fixtureGenerator->generateCsvWithEmployees();
     }
 }
