@@ -2,13 +2,14 @@
 
 namespace Csv\Factory\EmployeeFactory;
 
+use Csv\Employee\EmployeeHelper;
 use Csv\Employee\Validation\EmployeeValidator;
 use http\Exception\InvalidArgumentException;
 
 class EmployeeCreator
 {
 
-    public function __construct(private EmployeeValidator $employeeValidator)
+    public function __construct(private EmployeeValidator $employeeValidator, private EmployeeHelper $employeeHelper)
     {
     }
 
@@ -22,7 +23,7 @@ class EmployeeCreator
         $errors = $this->employeeValidator->validate($employeeRow);
 
         if (!empty($errors)) {
-            throw new InvalidArgumentException($this->employeeValidator->mergeErrorsToMessage($errors));
+            throw new InvalidArgumentException($this->employeeHelper->mergeErrorsToMessage($errors));
         }
 
         return $this->createEmployee($employeeRow);
